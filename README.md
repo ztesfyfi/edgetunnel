@@ -1,4 +1,4 @@
-# 🚀 edgetunnel 2.1
+# 🚀 edgetunnel 2.1 · TLS Fingerprint Edition
 ![后台页面](./img.png)
 
 [![Stars](https://img.shields.io/github/stars/cmliu/edgetunnel?style=flat-square&logo=github)](https://github.com/cmliu/edgetunnel/stargazers)
@@ -44,7 +44,7 @@
 
 1. 部署 CF Worker：
    - 在 CF Worker 控制台中创建一个新的 Worker。
-   - 将 [worker.js](https://github.com/cmliu/edgetunnel/blob/main/_worker.js) 的内容粘贴到 Worker 编辑器中。
+   - 推荐在仓库根目录使用 Wrangler 部署（`npx wrangler deploy`），确保 `_worker.js` 与 `_worker-core.js` 一起部署。此增强版入口依赖核心模块，不能只粘贴单个 `_worker.js` 文件。
    - 在左侧的 `设置`选项卡中，选择 `变量` > `添加变量`。
      变量名称填写**ADMIN**，值则为你的管理员密码，后点击 `保存`即可。
 
@@ -67,11 +67,11 @@
 <summary><code><strong>「 Pages 上传文件部署文字教程 」</strong></code></summary>
 
 1. 部署 CF Pages：
-   - 下载 [main.zip](https://github.com/cmliu/edgetunnel/archive/refs/heads/main.zip) 文件，并点上 Star !!!
-   - 在 CF Pages 控制台中选择 `上传资产`后，为你的项目取名后点击 `创建项目`，然后上传你下载好的 [main.zip](https://github.com/cmliu/edgetunnel/archive/refs/heads/main.zip) 文件后点击 `部署站点`。
+   - 下载 [main.zip](https://github.com/ztesfyfi/edgetunnel/archive/refs/heads/main.zip) 文件，并点上 Star !!!
+   - 在 CF Pages 控制台中选择 `上传资产`后，为你的项目取名后点击 `创建项目`，然后上传你下载好的 [main.zip](https://github.com/ztesfyfi/edgetunnel/archive/refs/heads/main.zip) 文件后点击 `部署站点`。
    - 部署完成后点击 `继续处理站点` 后，选择 `设置` > `环境变量` > **制作**为生产环境定义变量 > `添加变量`。
      变量名称填写**ADMIN**，值则为你的管理员密码，后点击 `保存`即可。
-   - 返回 `部署` 选项卡，在右下角点击 `创建新部署` 后，重新上传 [main.zip](https://github.com/cmliu/edgetunnel/archive/refs/heads/main.zip) 文件后点击 `保存并部署` 即可。
+   - 返回 `部署` 选项卡，在右下角点击 `创建新部署` 后，重新上传 [main.zip](https://github.com/ztesfyfi/edgetunnel/archive/refs/heads/main.zip) 文件后点击 `保存并部署` 即可。
 
 2. 绑定 KV 命名空间：
    - 在 `设置`选项卡中选择 `绑定` > `+ 添加` > `KV 命名空间`，然后选择一个已有的命名空间或创建一个新的命名空间进行绑定。
@@ -94,7 +94,7 @@
 <summary><code><strong>「 Pages + GitHub 部署文字教程 」</strong></code></summary>
 
 1. 部署 CF Pages：
-   - 在 Github 上先 Fork 本项目，并点上 Star !!!
+   - 在 Cloudflare Pages 中连接你 GitHub 账号下的 `ztesfyfi/edgetunnel` 仓库。
    - 在 CF Pages 控制台中选择 `连接到 Git`后，选中 `edgetunnel`项目后点击 `开始设置`。
    - 在 `设置构建和部署`页面下方，选择 `环境变量（高级）`后并 `添加变量`
      变量名称填写**ADMIN**，值则为你的管理员密码，后点击 `保存并部署`即可。
@@ -256,10 +256,10 @@
 默认使用 `certificate_public_key_sha256`，兼容 Sing-box 1.13+。Sing-box 1.15+ 可使用：
 
 ```text
-https://你的域名/sub?sbcert=1
+https://你的域名/sub?target=singbox&sbcert=1
 ```
 
-也可使用 `sbver=1.15`。此模式同时输出完整证书 SHA-256 与 SPKI SHA-256。旧版本不要启用 `sbcert=1`。
+也可使用 `?target=singbox&sbver=1.15`。此模式同时输出完整证书 SHA-256 与 SPKI SHA-256。旧版本不要启用 `sbcert=1`。
 
 ### 可选环境变量
 
