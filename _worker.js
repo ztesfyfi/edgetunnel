@@ -73,11 +73,11 @@ async function getTLSFingerprint(hostPattern, env, forceRefresh = false) {
 
 	if (!forceRefresh) {
 		const memory = TLSFP_MEMORY.get(key);
-		if (memory && memory.expiresAt > now) return memory.value;
+		if (memory) return memory.value;
 		try {
 			const cached = env?.KV ? await env.KV.get(key, 'json') : null;
 			if (cached?.certificateSha256Hex && cached?.spkiSha256Base64) {
-				TLSFP_MEMORY.set(key, { value: cached, expiresAt: now + 300000 });
+				TLSFP_MEMORY.set(key, { value: cached });
 				return cached;
 			}
 		} catch (error) {
@@ -122,11 +122,9 @@ async function getTLSFingerprint(hostPattern, env, forceRefresh = false) {
 			issuer: cert.issued_by || ''
 		};
 
-		const parsedTTL = Number.parseInt(env?.TLSFP_TTL || '21600', 10);
-		const ttl = Number.isFinite(parsedTTL) ? Math.min(86400, Math.max(60, parsedTTL)) : 21600;
-		TLSFP_MEMORY.set(key, { value, expiresAt: now + Math.min(ttl, 300) * 1000 });
+		TLSFP_MEMORY.set(key, { value });
 		try {
-			if (env?.KV) await env.KV.put(key, JSON.stringify(value), { expirationTtl: ttl });
+			if (env?.KV) await env.KV.put(key, JSON.stringify(value));
 		} catch (error) {
 			console.warn('[TLSFP] KV write failed:', error?.message || error);
 		}
